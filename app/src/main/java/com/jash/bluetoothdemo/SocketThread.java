@@ -20,7 +20,7 @@ public class SocketThread extends Thread {
     private BluetoothServerSocket serverSocket;
     public static UUID uuid = UUID.fromString("2562ca85-59cf-4fb4-b10c-262a52723a43");
     private static Map<BluetoothDevice, ChatClient> map = new HashMap<>();
-    private Handler handler;
+    private static Handler handler;
     public static ChatClient getClient(BluetoothDevice device){
         ChatClient client = map.get(device);
         if (client == null) {
@@ -30,6 +30,7 @@ public class SocketThread extends Thread {
                 //建立连接
                 socket.connect();
                 client = new ChatClient(socket);
+                client.register(handler);
                 map.put(device, client);
             } catch (IOException e) {
                 e.printStackTrace();
